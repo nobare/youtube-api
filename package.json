@@ -1,0 +1,18 @@
+{
+  "name": "youtube-api",
+  "version": "1.0.0",
+  "description": "Backend Youtube-Api",
+  "main": "app.js",
+  "repository": "https://github.com/nobare/youtube-api.git",
+  "scripts": {
+    "start": "nodemon src/app.js"
+  },
+  "author": "hugefudge <vinifalconi@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "googleapis": "^83.0.0",
+    "nodemon": "^2.0.12"
+  }
+}
