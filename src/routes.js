@@ -1,7 +1,8 @@
 const routes = require('express').Router();
-const { getVideos } = require('./controllers/searchController');
+
+const { getVideos, getMock } = require('./controllers/controller');
 
 routes.post('/search', getVideos)
-//routes.post('/mock')
+routes.get('/mock', getMock)
 
 module.exports = routes;

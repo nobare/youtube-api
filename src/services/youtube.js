@@ -1,28 +1,35 @@
 const { google } = require('googleapis');
 require('dotenv').config();
 
-const youtubeApi = google.youtube({
+const youtubeAPI = google.youtube({
   version: 'v3',
-  auth: process.env.GOOGLE_AUTH
+  auth: process.env.GOOGLE_KEY
 });
 
-const searchVideos = async (query) => {
-  const obj = {
+const searchVideos = async (query, data = [], nextPageToken = false) => {
+  const params = {
     q: query,
 		part:'snippet',
-		maxResults:'3',
+		maxResults:'50',
 		order: 'viewCount',
 		type: 'video'
   }
 
-  const infos = await youtubeApi.search.list(obj);
-  /* const ids = infos.data.items(({ id: {videoId }}) => videoId).join('');
-  const videos = youtubeApi.videos.list({
-    ...obj,
-    part:'contentDetails',
-    id: ids
-  }) */
-  return infos;
+  if (nextPageToken) params.nextPageToken
+
+  const infos = await youtubeAPI.search.list(params);
+  const ids = infos.data.items.map(({id: { videoId }}) => videoId).join(',');
+  const videos = await youtubeAPI.videos.list({...params, part:'contentDetails', id: ids });
+
+  videos.data.items.forEach(({ id, contentDetails }) => {
+    const detailedVideos = infos.data.items.find(({id: {videoId}}) => id == videoId);
+    detailedVideos.contentDetails = contentDetails
+  });
+
+  data = [...data, ...infos.data.items]
+  if(data.length === 200) return data 
+
+  return searchVideos(query, data, nextPageToken);
 }
 
 module.exports = {
