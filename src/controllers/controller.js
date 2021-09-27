@@ -7,7 +7,7 @@ const getVideos = async (req, res) => {
 
   const videos = await searchVideos(query);
   const mostUsedWords = wordCounter(separateInfos(videos))
-  const videoDurations = convertTimeFormat(videos); 
+  const videoDurations = convertTimeFormat(videos);
   res.json(videos)
 };
 

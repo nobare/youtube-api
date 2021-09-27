@@ -1,16 +1,15 @@
 const { google } = require('googleapis');
-require('dotenv').config();
 
 const youtubeAPI = google.youtube({
   version: 'v3',
-  auth: process.env.GOOGLE_KEY
+  auth: 'AIzaSyA-rBVfyLfSXGcAFzqnFZOy_knSJUdUWNY',
 });
 
 const searchVideos = async (query, data = [], nextPageToken = false) => {
   const params = {
     q: query,
 		part:'snippet',
-		maxResults:'50',
+		maxResults:'5',
 		order: 'viewCount',
 		type: 'video'
   }
@@ -27,7 +26,7 @@ const searchVideos = async (query, data = [], nextPageToken = false) => {
   });
 
   data = [...data, ...infos.data.items]
-  if(data.length === 200) return data 
+  if(data.length === 5) return data 
 
   return searchVideos(query, data, nextPageToken);
 }

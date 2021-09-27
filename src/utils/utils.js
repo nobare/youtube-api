@@ -19,11 +19,12 @@ const wordCounter = (data) => {
 const convertTimeFormat = (data) => {
   const durations = data.map(({ contentDetails: { duration }}) => {
     const time = moment.duration(duration, moment.ISO_8601);
-    return time.asSeconds()
+    return time.asSeconds();
   })
+
   return durations
 }
-
+  
 module.exports = {
   separateInfos,
   wordCounter,
